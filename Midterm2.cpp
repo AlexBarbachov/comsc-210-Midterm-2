@@ -231,7 +231,12 @@ public:
 
     string get_val(int pos)
     {
-        Node* temp = head
+        Node* temp = head;
+        for (int i =0; temp && i < pos; i++)
+        {
+            temp = temp->next;
+        }
+        return temp ? temp->data : "";
     }
 
     string front() {return head ? head->data : "";} // gets the first element
@@ -247,6 +252,8 @@ void serveCustomer(DoublyLinkedList& line); // will serve the frontmost customer
 void customerLeft(DoublyLinkedList& line); // will handle the last customer leaving
 void randomLeave(DoublyLinkedList& line); // random customer leaving
 void newCustomer(DoublyLinkedList& line, const vector<string> names); // adds new customer
+void VIPJoin(DoublyLinkedList& line, const vector<string> names); // handles vip joining
+void currLine(DoublyLinkedList& line);
 
 
 
@@ -255,6 +262,25 @@ int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
     // customer status generation here
+    srand(time(0));
+
+    vector<string> names = getNames("names.txt");
+
+    DoublyLinkedList line;
+    cout << "Store opens: " << endl;
+    initialCustomers(line, names);
+
+    // simulate from time 2 to 20
+    for (int i = 2; i < 21; i++)
+    {
+        cout << "Time step#" << i <<  ": " << endl;
+
+        int action;
+
+        action = rand() % 100 + 1;
+        if (action <= 40) serveCustomer(line);
+        
+    }
     
     return 0;
 }
@@ -311,7 +337,9 @@ void randomLeave(DoublyLinkedList& line)
 {
     int SIZE = line.size();
     int pos = rand() % SIZE + 1;
-    if (pos == 1 || pos == SIZE) {return;} // handled in different functions
+    if (pos == 1 || pos == SIZE) {return;}// handled in different functions
+
+    cout << "\t" << line.get_val(pos - 1) << "left the lien" << endl; // returns the name of the custorm that left the line.
     line.delete_pos(pos);
 
 }
@@ -322,6 +350,23 @@ void newCustomer(DoublyLinkedList& line, const vector<string> names)
     line.push_back(name);
     cout << "\t" << name << " joins the line" << endl;
 }
+
+void VIPJoin(DoublyLinkedList& line, const vector<string> names)
+{
+    string name = randName(names); // gen random name
+    cout << "\t" << name << " (VIP) joins the front of the line." << endl;
+    line.push_front(name); // add vip to the front
+}
+
+void currLine(DoublyLinkedList& line)
+{
+    cout << "\tResulting line: " << endl;
+    line.print();
+    cout << endl;
+}
+
+
+
 
 
 
