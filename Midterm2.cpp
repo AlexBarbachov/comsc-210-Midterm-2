@@ -1,7 +1,7 @@
 #include <iostream>
-
 #include <fstream> // for file opening
 #include <string>
+#include <vector>
 #include <cstdlib> // for random
 #include <ctime> // reset rand seed every run
 
@@ -212,10 +212,59 @@ public:
     }
 };
 
+
+// func protos
+vector<string> getNames(const string& filename);
+string randName(const vector<string>& names);
+void initialCustomers(DoublyLinkedList& line, const vector<string> names);
+
+
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
     
     return 0;
 }
+
+// reads the file
+vector<string> getNames(const string& filename)
+{
+    vector<string> names; // name vector
+    ifstream file(filename);
+
+    string name; 
+    while (getline(file, name))
+    {
+        if (!name.empty()) // check if line is not blank
+            names.push_back(name);
+    }
+    return names;
+}
+
+// returns a unique name given some vector
+string randName(const vector<string>& names)
+{
+    int index = rand() % names.size(); // generate a random index from 0 to the length of names
+    return names[index]; // return the name
+}
+
+void initialCustomers(DoublyLinkedList& line, const vector<string> names)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        string name = randName(names);
+        line.push_back(name);
+        cout << "\t" << name << " joins the line." << endl;
+    }
+    cout << "Resulting line: " << endl;
+    line.print(); // 
+}
+
+
+
+
+
+
+
+
 
