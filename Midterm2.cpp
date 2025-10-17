@@ -210,18 +210,31 @@ public:
         }
         cout << endl;
     }
+
+    // checks if the linked list is empty
+    bool empty()
+    {
+        return head == nullptr; // gives true is list is empty
+    }
+
+    string front() {return head ? head->data : "";} // gets the first element
+    string back() {return tail ? tail->data : "";} // gets the last element -> needed to handle serving and other thigns
 };
 
 
 // func protos
-vector<string> getNames(const string& filename);
-string randName(const vector<string>& names);
-void initialCustomers(DoublyLinkedList& line, const vector<string> names);
+vector<string> getNames(const string& filename); // read the file
+string randName(const vector<string>& names); // generates a random name from the file
+void initialCustomers(DoublyLinkedList& line, const vector<string> names); // generate first 5 customers
+void serveCustomer(DoublyLinkedList& line); // will serve the frontmost customer
+void customerLeft(DoublyLinkedList& line); // will handle the last customer leaving
+
 
 
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
 
+    // customer status generation here
     
     return 0;
 }
@@ -252,13 +265,27 @@ void initialCustomers(DoublyLinkedList& line, const vector<string> names)
 {
     for (int i = 0; i < 5; i++)
     {
-        string name = randName(names);
-        line.push_back(name);
+        string name = randName(names); // generate a name
+        line.push_back(name);  // add to linked list
         cout << "\t" << name << " joins the line." << endl;
     }
-    cout << "Resulting line: " << endl;
-    line.print(); // 
+    cout << "\tResulting line: " << endl; // formatting
+    line.print(); // output all the names (current state of the line)
 }
+
+void serveCustomer(DoublyLinkedList& line)
+{
+    if (line.empty()) {return;} // return if there are no customers to serve
+    cout << "\t" << line.front() << " is served." << endl;
+    line.pop_front(); // remove front customer
+}
+
+void customerLeft(DoublyLinkedList& line)
+{
+    if (line.empty()) {return;}
+    cout << "\t" << line.back() << " (at the rear) gets frusturated and leaves" << endl;
+}
+
 
 
 
