@@ -192,7 +192,7 @@ public:
             return;
         }
         while (current) {
-            cout << current->data << " ";
+            cout << current->data << endl;
             current = current->next;
         }
         cout << endl;
@@ -279,8 +279,22 @@ int main() {
 
         action = rand() % 100 + 1;
         if (action <= 40) serveCustomer(line);
-        
+
+        action = rand() % 100 + 1;
+        if (action <= 60) newCustomer(line, names);
+
+        action = rand() % 100 + 1;
+        if (action <= 20) customerLeft(line);
+
+        action = rand() % 100 + 1;
+        if (action <= 10) randomLeave(line);
+
+        action = rand() % 100 + 1;
+        if (action <= 10) VIPJoin(line, names);
+
+        currLine(line);
     }
+
     
     return 0;
 }
