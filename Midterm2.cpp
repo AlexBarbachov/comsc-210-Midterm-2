@@ -217,6 +217,23 @@ public:
         return head == nullptr; // gives true is list is empty
     }
 
+    int size()
+    {
+        int count = 0;
+        Node* temp = head;
+        while (temp)
+        {
+            count++; // add 1 with each loop
+            temp = temp->next;
+        }
+        return count; // returns the size
+    }
+
+    string get_val(int pos)
+    {
+        Node* temp = head
+    }
+
     string front() {return head ? head->data : "";} // gets the first element
     string back() {return tail ? tail->data : "";} // gets the last element -> needed to handle serving and other thigns
 };
@@ -228,6 +245,9 @@ string randName(const vector<string>& names); // generates a random name from th
 void initialCustomers(DoublyLinkedList& line, const vector<string> names); // generate first 5 customers
 void serveCustomer(DoublyLinkedList& line); // will serve the frontmost customer
 void customerLeft(DoublyLinkedList& line); // will handle the last customer leaving
+void randomLeave(DoublyLinkedList& line); // random customer leaving
+void newCustomer(DoublyLinkedList& line, const vector<string> names); // adds new customer
+
 
 
 
@@ -282,8 +302,25 @@ void serveCustomer(DoublyLinkedList& line)
 
 void customerLeft(DoublyLinkedList& line)
 {
-    if (line.empty()) {return;}
+    if (line.empty()) {return;} // return if there are no customers to serve
     cout << "\t" << line.back() << " (at the rear) gets frusturated and leaves" << endl;
+    line.pop_back(); // remove last customer
+}
+
+void randomLeave(DoublyLinkedList& line)
+{
+    int SIZE = line.size();
+    int pos = rand() % SIZE + 1;
+    if (pos == 1 || pos == SIZE) {return;} // handled in different functions
+    line.delete_pos(pos);
+
+}
+
+void newCustomer(DoublyLinkedList& line, const vector<string> names)
+{
+    string name = randName(names); // generate new customer
+    line.push_back(name);
+    cout << "\t" << name << " joins the line" << endl;
 }
 
 
